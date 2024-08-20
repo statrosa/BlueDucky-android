@@ -14,25 +14,26 @@ def get_target_address():
     if target_address == "":
         devices = scan_for_devices()
         if devices:
+        	return devices[0][0]
             # Check if the returned list is from known devices or scanned devices
-            if len(devices) == 1 and isinstance(devices[0], tuple) and len(devices[0]) == 2:
-                # A single known device was chosen, no need to ask for selection
-                # I think it would be better to ask, as sometimes I do not want to chose this device and actually need solely to scan for actual devices.
-                confirm = input(f"\n Would you like to register this device{blue}:\n{reset}{devices[0][1]} {devices[0][0]}{blue}? {blue}({reset}y{blue}/{reset}n{blue}) {blue}").strip().lower()
-                if confirm == 'y' or confirm == 'yes':
-                    return devices[0][0]
-                elif confirm != 'y' or 'yes':
-                    return
-            else:
-                # Show list of scanned devices for user selection
-                for idx, (addr, name) in enumerate(devices):
-                    print(f"{reset}[{blue}{idx + 1}{reset}] {blue}Device Name{reset}: {blue}{name}, {blue}Address{reset}: {blue}{addr}")
-                selection = int(input(f"\n{reset}Select a device by number{blue}: {blue}")) - 1
-                if 0 <= selection < len(devices):
-                    target_address = devices[selection][0]
-                else:
-                    print("\nInvalid selection. Exiting.")
-                    return
+            # if len(devices) == 1 and isinstance(devices[0], tuple) and len(devices[0]) == 2:
+            #     # A single known device was chosen, no need to ask for selection
+            #     # I think it would be better to ask, as sometimes I do not want to chose this device and actually need solely to scan for actual devices.
+            #     confirm = input(f"\n Would you like to register this device{blue}:\n{reset}{devices[0][1]} {devices[0][0]}{blue}? {blue}({reset}y{blue}/{reset}n{blue}) {blue}").strip().lower()
+            #     if confirm == 'y' or confirm == 'yes':
+            #         return devices[0][0]
+            #     elif confirm != 'y' or 'yes':
+            #         return
+            # else:
+            #     # Show list of scanned devices for user selection
+            #     for idx, (addr, name) in enumerate(devices):
+            #         print(f"{reset}[{blue}{idx + 1}{reset}] {blue}Device Name{reset}: {blue}{name}, {blue}Address{reset}: {blue}{addr}")
+            #     selection = int(input(f"\n{reset}Select a device by number{blue}: {blue}")) - 1
+            #     if 0 <= selection < len(devices):
+            #         target_address = devices[selection][0]
+            #     else:
+            #         print("\nInvalid selection. Exiting.")r
+            #         return
         else:
             return
     elif not is_valid_mac_address(target_address):
@@ -112,8 +113,8 @@ def scan_for_devices():
         blue = "\033[94m"
         error = "\033[91m"
         reset = "\033[0m"
-        use_known_device = input(f"\n{reset}Do you want to use one of these known devices{blue}? {blue}({reset}yes{blue}/{reset}no{blue}): ")
-        if use_known_device.lower() == 'yes':
+        use_known_device = input(f"\n{reset}Do you want to use one of these known devices{blue}? {blue}({reset}y{blue}/{reset}n{blue}): ")
+        if 'y' in use_known_device.lower() :
             device_choice = int(input(f"{reset}Enter the index number of the device to attack{blue}: "))
             return [known_devices[device_choice - 1]]
 

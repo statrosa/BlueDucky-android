@@ -656,11 +656,6 @@ def troubleshoot_bluetooth():
         print("{reset}[{red}!{reset}] {red}CRITICAL{reset}: No {blue}Bluetooth adapters{reset} have been detected.")
         return False
 
-    # List devices to see if any are connected
-    result = subprocess.run(['bluetoothctl', 'devices'], capture_output=True, text=True)
-    if "Device" not in result.stdout:
-        print("{reset}[{red}!{reset}] {red}CRITICAL{reset}: No Compatible {blue}Bluetooth devices{reset} are connected.")
-        return False
 
     # if no issues are found then continue
     return True
